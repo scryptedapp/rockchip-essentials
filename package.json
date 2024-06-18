@@ -23,7 +23,7 @@
       "scrypted-package-json": "scrypted-package-json"
    },
    "scrypted": {
-      "name": "Essential Software for Scrypted on Rockchip CPUs",
+      "name": "Rockchip Essentials",
       "runtime": "python",
       "pythonVersion": {
          "default": "3.12"
