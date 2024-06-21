@@ -30,6 +30,7 @@
       },
       "type": "API",
       "interfaces": [
+         "Settings"
       ],
       "pluginDependencies": [
          "@scrypted/rknn"

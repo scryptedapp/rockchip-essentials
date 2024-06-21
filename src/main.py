@@ -1,18 +1,20 @@
 import os
 import urllib.request
 
+from scrypted_sdk import ScryptedDeviceBase, Settings, Setting
+
 
 ffmpeg_download = "https://github.com/scryptedapp/rockchip-essentials/releases/download/ffmpeg-6.0.1-0/ffmpeg"
 
 
-class RockchipEssentials:
+class RockchipEssentials(ScryptedDeviceBase, Settings):
 
     def __init__(self) -> None:
-        file = self.downloadFile(ffmpeg_download, 'ffmpeg')
-        os.chmod(file, 0o755)
+        self.file = self.downloadFile(ffmpeg_download, 'ffmpeg')
+        os.chmod(self.file, 0o755)
 
         print("Set the following environment variable to use ffmpeg with Rockchip hardware acceleration:")
-        print(f"SCRYPTED_FFMPEG_PATH={file}")
+        print(f"SCRYPTED_FFMPEG_PATH={self.file}")
 
     def downloadFile(self, url: str, filename: str):
         try:
@@ -43,6 +45,19 @@ class RockchipEssentials:
             import traceback
             traceback.print_exc()
             raise
+
+    async def getSettings(self) -> list[Setting]:
+        return [
+            {
+                "key": "ffmpeg_path",
+                "title": "FFmpeg Path",
+                "value": self.file,
+                "readonly": True,
+            }
+        ]
+
+    async def putSetting(self, key: str, value: str) -> None:
+        pass
 
 
 def create_scrypted_plugin():
