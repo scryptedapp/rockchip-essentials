@@ -1,6 +1,6 @@
 {
    "name": "@scrypted/rockchip-essentials",
-   "version": "0.0.1",
+   "version": "0.0.2",
    "description": "Essential Software for Scrypted on Rockchip CPUs",
    "license": "Apache",
    "keywords": [
