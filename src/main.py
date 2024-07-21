@@ -4,7 +4,7 @@ import urllib.request
 from scrypted_sdk import ScryptedDeviceBase, Settings, Setting
 
 
-ffmpeg_download = "https://github.com/scryptedapp/rockchip-essentials/releases/download/ffmpeg-6.0.1-0/ffmpeg"
+ffmpeg_download = "https://github.com/scryptedapp/rockchip-essentials/releases/download/ffmpeg-6.0.1-1/ffmpeg"
 
 
 class RockchipEssentials(ScryptedDeviceBase, Settings):
@@ -20,8 +20,12 @@ class RockchipEssentials(ScryptedDeviceBase, Settings):
         try:
             filesPath = os.path.join(os.environ['SCRYPTED_PLUGIN_VOLUME'], 'files')
             fullpath = os.path.join(filesPath, filename)
-            if os.path.isfile(fullpath):
-                return fullpath
+            srcPath = os.path.join(filesPath, filename + '.src')
+            if os.path.isfile(srcPath):
+                with open(srcPath, 'r') as f:
+                    src = f.read()
+                    if src == url and os.path.isfile(fullpath):
+                        return fullpath
             tmp = fullpath + '.tmp'
             print("Creating directory for", tmp)
             os.makedirs(os.path.dirname(fullpath), exist_ok=True)
@@ -39,6 +43,8 @@ class RockchipEssentials(ScryptedDeviceBase, Settings):
                     print("Downloaded", read, "bytes")
                     f.write(data)
             os.rename(tmp, fullpath)
+            with open(srcPath, 'w') as f:
+                f.write(url)
             return fullpath
         except:
             print("Error downloading", url)
